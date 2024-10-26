@@ -1,39 +1,57 @@
 
 package com.groupproject.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.SecondaryTable;
-import jakarta.persistence.Table;
+import java.util.ArrayList;
+
+import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "words")
-@SecondaryTable(name = "synsets")
+@Table(name = "senses")
+@SecondaryTable(name = "synsets", pkJoinColumns = @PrimaryKeyJoinColumn(name="synsetid"))
+@SecondaryTable(name = "words", pkJoinColumns = @PrimaryKeyJoinColumn(name="wordid"))
 @NamedQueries({ // what type of queries would go here?
     
 })
-public class Word {
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "lemma")
-    private String word;
+public class Word implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+
+    @Column(name = "wordid")
+    private Integer wordID;
     /*
      * we don't have definitinos in the same table as words right now, so, the possible
      * solutions are:
      * - https://docs.oracle.com/javaee/7/api/javax/persistence/SecondaryTable.html
      * - https://stackoverflow.com/questions/66982026/jpa-secondary-table-mapping-direction
      */
-    @Column(name = "definition", table = "synset")
-    private String definition;
-
+    @Column(name = "synsetid")
+    private Integer[] definitionID;
+    @Column(name = "lemma", table = "words")
+    private String word;
+    @Column(name = "lemma", table = "synsets")
+    private ArrayList<String> definitions;
+ 
     // Constructors, Getters and Setters
     public Word() {}
 
-    public Word(String word, String definition) {
+    public Word(String word, ArrayList<String> definitions) {
         // if we make one table, we can maybe make the constructor with just ID
         this.word = word;
-        this.definition = definition;
+        this.definitions = definitions;
     }
 
     public String getWord() {
@@ -44,12 +62,12 @@ public class Word {
         this.word = word;
     }
 
-    public String getDefinition() {
-        return definition;
+    public ArrayList<String> getDefinitions() {
+        return definitions;
     }
 
-    public void setDefinition(String definition) {
-        this.definition = definition;
+    public void setDefinition(ArrayList<String> definitions) {
+        this.definitions = definitions;
     }
 
 }

@@ -1,5 +1,9 @@
 package com.groupproject.repository;
 
-public class DictionaryRepository {
+import com.groupproject.model.Word;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DictionaryRepository extends JpaRepository<Word, Integer> {
+
     
 }

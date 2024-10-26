@@ -2,15 +2,33 @@
 package com.groupproject.service;
 
 import com.groupproject.model.Word;
+import com.groupproject.repository.DictionaryRepository;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class DictionaryService {
+
+    @Autowired
+    private DictionaryRepository repository;
+
+    @PersistenceContext
+    private EntityManager em;
     
-     private static final Map<String, String> dictionary = new HashMap<>();
+    public Word getWord(Integer id){
+        return repository.getById(id);
+    }
+
+    private static final Map<String, String> dictionary = new HashMap<>();
 
     static {
         dictionary.put("hello", "A greeting or expression of goodwill.");
@@ -19,13 +37,11 @@ public class DictionaryService {
     }
 
     public Word getDefinition(String word) {
-        String definition = dictionary.get(word.toLowerCase());
-        if (definition != null) {
-            return new Word(word, definition);
-        } else {
-            return new Word(word, "Definition not found.");
+        ArrayList<String> definition = new ArrayList<String>();
+        definition.add(dictionary.get(word.toLowerCase()));
+        return new Word(word, definition);
         }
     }
     
-}
+
 

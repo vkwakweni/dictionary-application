@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>2.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.groupproject</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>hu.pte</groupId>
+	<artifactId>weekthree</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Dictionary</name>
+	<name>weekthree</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -40,8 +40,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -49,6 +49,54 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>org.eclipse.persistence.core</artifactId>
+	  <version>2.7.10</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>org.eclipse.persistence.asm</artifactId>
+	  <version>9.2.0</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>org.eclipse.persistence.antlr</artifactId>
+	  <version>2.7.10</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>org.eclipse.persistence.jpa</artifactId>
+	  <version>2.7.10</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>org.eclipse.persistence.jpa.jpql</artifactId>
+	  <version>2.7.10</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>org.eclipse.persistence.moxy</artifactId>
+	  <version>2.7.10</version>
+	 </dependency>
+	 <dependency>
+	  <groupId>org.eclipse.persistence</groupId>
+	  <artifactId>jakarta.persistence</artifactId>
+	  <version>2.2.3</version>
+	 </dependency>
+         
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+            
 	</dependencies>
 
 	<build>
