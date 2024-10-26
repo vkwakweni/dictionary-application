@@ -1,4 +1,4 @@
-package com.groupproject.demo;
+package com.groupproject.repository;
 
 public class DictionaryRepository {
     
