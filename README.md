@@ -28,7 +28,7 @@ To be able ro develop and run the application locally, follow the following step
 2. Create a database named `wordnet31`.
 3. To load the (empty) schemas, run [`mysql-wn-schema.sql`](./wordnet-sql-scripts/set-up/mysql-wn-schema.sql)
     1. You can import SQL files straight into phpMyAdmin. However if you are unable to, do the following:
-        1. Access MySQL from the command line/shell/terminal. On Linux, this is done with mysql-server, with the command cd C:\xampp\mysql\bin.
+        1. Access MySQL from the command line/shell/terminal. On windows, this is done with mysql-server, with the command cd C:\xampp\mysql\bin.
         2. To load 'import' the tables, run mysql -u root -h localhost wordnet31 < "C:\Users\user\Documents\mysql-wn-schema.sql"
         3. You can quit once you've loaded all the files you need to.
 4. To load the data into the schemas, runmysql -u root -h localhost wordnet31 < "C:\Users\user\Documents\mysql-wn-data.sql"
