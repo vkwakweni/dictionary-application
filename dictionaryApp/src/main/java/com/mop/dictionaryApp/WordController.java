@@ -25,20 +25,30 @@ public class WordController {
         return wordService.getAllWords();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Word> getWordById(@PathVariable Integer id) {
-        Optional<Word> word = wordService.getWordById(id);
+    @GetMapping("/{wordId}/{synsetId}")
+    public ResponseEntity<Word> getWordById(@PathVariable Integer wordId, @PathVariable Integer synsetId) {
+        Word search = new Word(wordId, synsetId);
+        // Word searchFor = new Word(search.wordid);
+        Optional<Word> word = wordService.getWordById(search);
+        System.out.println(search.toString());
         return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    // @GetMapping("/{wordId}")
+    // public ResponseEntity<Word> getByWordId(@PathVariable Integer wordId) {
+    //     Word search = new Word(wordId);
+    //     Optional<Word> word = wordService.getWordById(search);
+    //     return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // }
 
     @PostMapping
     public Word createWord(@RequestBody Word word) {
         return wordService.createWord(word);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWord(@PathVariable Integer id) {
-        wordService.deleteWord(id);
+    @DeleteMapping("/{wordId}/{synsetId}")
+    public ResponseEntity<Void> deleteWord(@PathVariable Integer wordId, @PathVariable Integer synsetId) {
+        wordService.deleteWord(new Word(wordId, synsetId));
         return ResponseEntity.noContent().build();
     }
     
