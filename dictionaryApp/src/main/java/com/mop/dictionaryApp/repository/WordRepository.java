@@ -9,5 +9,5 @@ import com.mop.dictionaryApp.model.Word;
 @Repository
 public interface WordRepository extends JpaRepository<Word, Integer>{
 
-
+    
 }

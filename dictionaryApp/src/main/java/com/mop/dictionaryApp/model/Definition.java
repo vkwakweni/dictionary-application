@@ -2,9 +2,11 @@ package com.mop.dictionaryApp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +18,7 @@ public class Definition {
     private Integer synsetid;
 
     @ManyToOne
-    @JoinColumn(name = "wordid")
+    @JoinColumn(name="wordid")
     private Word word;
 
     // Getters and setters

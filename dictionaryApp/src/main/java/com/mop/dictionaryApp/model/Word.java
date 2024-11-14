@@ -1,16 +1,22 @@
 package com.mop.dictionaryApp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Entity
 @Table(name = "senses")
@@ -24,10 +30,12 @@ public class Word {
     @Id
     @Column(name = "wordid")
     private Integer wordid;
-    
-    @Column(name = "senseid")
-    @OneToMany
-    private List<Definition> synsets;
+
+    // @Query(value = "Select w.synsetid from Word w where w.wordid = :wordid")
+
+    @Column(name = "synsetid")
+    @OneToMany(mappedBy = "word")
+    private List<Definition> synsets = new ArrayList<Definition>() ;
 
     // private List<Integer> createtSynsetset() {
     //     List<Integer> synsetSet = new ArrayList<>();
@@ -72,8 +80,8 @@ public class Word {
         return this.synsets;
     }
 
-    public void setSynsetId(List<Definition> definition) {
-        this.synsets = definition;
+    public List<Definition> setSynsets(List<Definition> synsets) {
+        return this.synsets = synsets;
     }
    
     @Override
