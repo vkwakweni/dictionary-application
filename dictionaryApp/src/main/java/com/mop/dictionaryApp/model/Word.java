@@ -1,11 +1,15 @@
-package com.mop.dictionaryApp;
+package com.mop.dictionaryApp.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,7 +26,8 @@ public class Word {
     private Integer wordid;
     
     @Column(name = "senseid")
-    private Integer synsetid;
+    @OneToMany(mappedBy = "word", cascade = CascadeType.ALL)
+    private List<Definition> synsets;
 
     // private List<Integer> createtSynsetset() {
     //     List<Integer> synsetSet = new ArrayList<>();
@@ -41,15 +46,19 @@ public class Word {
 
     public Word() {}
 
-    public Word(Integer word, Integer definition) {
-        this.wordid = word;
-        this.synsetid = definition;
-    }
+    // public Word(Integer word, Integer definition) {
+    //     this.wordid = word;
+    //     this.synsetid = definition;
+    // }
 
     // public Word(Integer word) {
     //     this.wordid = word;
     //     this.synsetSet = new ArrayList<>();
     // }
+
+    public Word(Integer wordid) {
+        this.wordid = wordid;
+    }
 
     public Integer getWordId() {
         return this.wordid;
@@ -59,21 +68,16 @@ public class Word {
         this.wordid = id;
     }
 
-    public Integer getSynsetId() {
-        return this.synsetid;
+    public List<Definition> getSynsets() {
+        return this.synsets;
     }
 
-    public void setSynsetId(Integer definition) {
-        this.synsetid = definition;
+    public void setSynsetId(List<Definition> definition) {
+        this.synsets = definition;
     }
-
-    // public void addSynset(Integer id) {
-    //     this.synsetSet.add(id);
-    // }
    
-
     @Override
     public String toString() {
-        return this.wordid + ": " + this.synsetid;
+        return this.wordid + ": " + this.synsets;
     }
 }

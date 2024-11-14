@@ -1,4 +1,4 @@
-package com.mop.dictionaryApp;
+package com.mop.dictionaryApp.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mop.dictionaryApp.model.Word;
+import com.mop.dictionaryApp.service.WordService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +27,9 @@ public class WordController {
         return wordService.getAllWords();
     }
 
-    @GetMapping("/{wordId}/{synsetId}")
-    public ResponseEntity<Word> getWordById(@PathVariable Integer wordId, @PathVariable Integer synsetId) {
-        Word search = new Word(wordId, synsetId);
-        // Word searchFor = new Word(search.wordid);
-        Optional<Word> word = wordService.getWordById(search);
-        System.out.println(search.toString());
+    @GetMapping("/{wordId}")
+    public ResponseEntity<Word> getWordById(@PathVariable Integer wordid) {
+        Optional<Word> word = wordService.getWordById(wordid);
         return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -46,9 +45,9 @@ public class WordController {
         return wordService.createWord(word);
     }
 
-    @DeleteMapping("/{wordId}/{synsetId}")
-    public ResponseEntity<Void> deleteWord(@PathVariable Integer wordId, @PathVariable Integer synsetId) {
-        wordService.deleteWord(new Word(wordId, synsetId));
+    @DeleteMapping("/{wordId}")
+    public ResponseEntity<Void> deleteWord(@PathVariable Integer wordid) {
+        wordService.deleteWord(wordid);
         return ResponseEntity.noContent().build();
     }
     

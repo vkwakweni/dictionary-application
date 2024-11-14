@@ -1,4 +1,4 @@
-package com.mop.dictionaryApp;
+package com.mop.dictionaryApp.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +8,9 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+
+import com.mop.dictionaryApp.model.Word;
+import com.mop.dictionaryApp.repository.WordRepository;
 
 @Transactional
 @Service
@@ -26,19 +29,19 @@ public class WordService {
         return wordRepository.findAll();
     }
 
-    public Optional<Word> getWordById(Word word) {
-        return wordRepository.findById(word.getWordId());
+    public Optional<Word> getWordById(Integer word) {
+        return wordRepository.findById(word);
     }
 
-    public Word createWord(Word word) {
+    public Word createWord(Word word) { // maybe save word instead
         return wordRepository.save(word);
     }
 
-    public void deleteWord(Word word) {
-        if (wordRepository.existsById(word.getWordId())) {
-            wordRepository.deleteById(word.getWordId());
+    public void deleteWord(Integer word) {
+        if (wordRepository.existsById(word)) {
+            wordRepository.deleteById(word);
         } else {
-            throw new RuntimeException("Word not found with id: " + word.getWordId());
+            throw new RuntimeException("Word not found with id: " + word);
         }
     }
 
