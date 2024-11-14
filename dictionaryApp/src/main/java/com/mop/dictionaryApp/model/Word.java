@@ -26,7 +26,7 @@ public class Word {
     private Integer wordid;
     
     @Column(name = "senseid")
-    @OneToMany(mappedBy = "word", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Definition> synsets;
 
     // private List<Integer> createtSynsetset() {

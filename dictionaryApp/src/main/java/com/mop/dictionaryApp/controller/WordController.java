@@ -27,7 +27,7 @@ public class WordController {
         return wordService.getAllWords();
     }
 
-    @GetMapping("/{wordId}")
+    @GetMapping("/{wordid}")
     public ResponseEntity<Word> getWordById(@PathVariable Integer wordid) {
         Optional<Word> word = wordService.getWordById(wordid);
         return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
