@@ -24,6 +24,16 @@ public class WordService {
     public WordService(WordRepository wordRepository){
         this.wordRepository = wordRepository;
     }
+     @Transactional
+    public Word getWordWithDefinitionsById(Integer wordid) {
+        return wordRepository.findWordWithDefinitionsById(wordid);
+    }
+
+    // Fetch all words with their definitions
+    @Transactional
+    public List<Word> getAllWordsWithDefinitions() {
+        return wordRepository.findAllWordsWithDefinitions();
+    }
 
     public List<Word> getAllWords() {
         return wordRepository.findAll();

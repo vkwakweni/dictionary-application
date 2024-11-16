@@ -16,6 +16,16 @@ public class DefinitionService {
     
     @Autowired
     private DefinitionRepository definitionRepository;
+        public DefinitionService(DefinitionRepository definitionRepository) {
+        this.definitionRepository = definitionRepository;
+    }
+
+    // Fetch a single definition with its words
+    @Transactional
+    public Definition getDefinitionWithWordsById(Integer synsetid) {
+        return definitionRepository.findDefinitionWithWordsById(synsetid);
+    }
+    
 
     public List<Definition> getAllDefinitions() {
         return definitionRepository.findAll();

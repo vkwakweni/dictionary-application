@@ -21,6 +21,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class WordController {
     @Autowired
     private WordService wordService;
+    
+        public WordController(WordService wordService) {
+        this.wordService = wordService;
+    }
+
+    @GetMapping("/{wordid}")
+    public Word getWordWithDefinitions(@PathVariable Integer wordid) {
+        return wordService.getWordWithDefinitionsById(wordid);
+    }
+
+    @GetMapping
+    public List<Word> getAllWordsWithDefinitions() {
+        return wordService.getAllWordsWithDefinitions();
+    }
 
     @GetMapping("/words")
     public List<Word> getAllWords() {
