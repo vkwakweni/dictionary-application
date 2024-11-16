@@ -2,6 +2,8 @@ package com.mop.dictionaryApp.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,11 @@ public class DefinitionService {
     
     @Autowired
     private DefinitionRepository definitionRepository;
-        public DefinitionService(DefinitionRepository definitionRepository) {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public DefinitionService(DefinitionRepository definitionRepository) {
         this.definitionRepository = definitionRepository;
     }
 

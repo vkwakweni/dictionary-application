@@ -12,11 +12,14 @@ import com.mop.dictionaryApp.service.DefinitionService;
 @RestController
 public class DefinitionController {
 
-
     @Autowired
     private DefinitionService definitionService;
 
-    @GetMapping
+    public DefinitionController(DefinitionService definitionService) {
+        this.definitionService = definitionService;
+    }
+
+    @GetMapping("/synonyms")
     public List<Definition> getAllDefinitions() {
         return definitionService.getAllDefinitions();
     }

@@ -24,8 +24,9 @@ public class WordService {
     public WordService(WordRepository wordRepository){
         this.wordRepository = wordRepository;
     }
-     @Transactional
-    public Word getWordWithDefinitionsById(Integer wordid) {
+
+    @Transactional
+    public Optional<Word> getWordWithDefinitionsById(Integer wordid) {
         return wordRepository.findWordWithDefinitionsById(wordid);
     }
 

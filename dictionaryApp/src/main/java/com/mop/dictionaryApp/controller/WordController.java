@@ -22,30 +22,31 @@ public class WordController {
     @Autowired
     private WordService wordService;
     
-        public WordController(WordService wordService) {
+    public WordController(WordService wordService) {
         this.wordService = wordService;
     }
 
     @GetMapping("/{wordid}")
-    public Word getWordWithDefinitions(@PathVariable Integer wordid) {
-        return wordService.getWordWithDefinitionsById(wordid);
+    public ResponseEntity<Word> getWordWithDefinitions(@PathVariable Integer wordid) {
+        Optional<Word> word = wordService.getWordWithDefinitionsById(wordid);
+        return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
+    @GetMapping("/words")
     public List<Word> getAllWordsWithDefinitions() {
         return wordService.getAllWordsWithDefinitions();
     }
 
-    @GetMapping("/words")
-    public List<Word> getAllWords() {
-        return wordService.getAllWords();
-    }
+    // @GetMapping("/words")
+    // public List<Word> getAllWords() {
+    //     return wordService.getAllWords();
+    // }
 
-    @GetMapping("/{wordid}")
-    public ResponseEntity<Word> getWordById(@PathVariable Integer wordid) {
-        Optional<Word> word = wordService.getWordById(wordid);
-        return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+    // @GetMapping("/{wordid}")
+    // public ResponseEntity<Word> getWordById(@PathVariable Integer wordid) {
+    //     Optional<Word> word = wordService.getWordById(wordid);
+    //     return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // }
 
     // @GetMapping("/{wordId}")
     // public ResponseEntity<Word> getByWordId(@PathVariable Integer wordId) {
