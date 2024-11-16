@@ -1,5 +1,6 @@
 package com.mop.dictionaryApp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +11,19 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "senses")
@@ -25,7 +32,9 @@ import org.springframework.data.repository.query.Param;
     @NamedQuery(name = "Word.findAll", query = "SELECT distinct w FROM Word w"),
     @NamedQuery(name = "Word.findByWordId", query = "SELECT distinct w FROM Word w WHERE w.id = :wordid")
 })
-public class Word {
+public class Word implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "wordid")
@@ -33,9 +42,12 @@ public class Word {
 
     // @Query(value = "Select w.synsetid from Word w where w.wordid = :wordid")
 
-    @Column(name = "synsetid")
-    @OneToMany(mappedBy = "word")
-    private List<Definition> synsets = new ArrayList<Definition>() ;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "senses",
+                joinColumns = @JoinColumn(name = "wordid"),
+                inverseJoinColumns = @JoinColumn(name = "synsetid"))
+    @JsonManagedReference
+    private List<Definition> synsetid = new ArrayList<Definition>() ;
 
     // private List<Integer> createtSynsetset() {
     //     List<Integer> synsetSet = new ArrayList<>();
@@ -77,15 +89,15 @@ public class Word {
     }
 
     public List<Definition> getSynsets() {
-        return this.synsets;
+        return this.synsetid;
     }
 
     public List<Definition> setSynsets(List<Definition> synsets) {
-        return this.synsets = synsets;
+        return this.synsetid = synsets;
     }
    
     @Override
     public String toString() {
-        return this.wordid + ": " + this.synsets;
+        return this.wordid + ": " + this.synsetid;
     }
 }
