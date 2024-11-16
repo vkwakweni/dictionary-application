@@ -1,8 +1,9 @@
 package com.mop.dictionaryApp.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,7 +39,7 @@ public class Word implements Serializable {
                 joinColumns = @JoinColumn(name = "wordid"),
                 inverseJoinColumns = @JoinColumn(name = "synsetid"))
     @JsonManagedReference
-    private List<Definition> synsets = new ArrayList<Definition>() ;
+    private List<Definition> synsets;
 
     public Word() {}
     //     this.wordid = word;
@@ -58,11 +59,16 @@ public class Word implements Serializable {
     }
 
     public List<Definition> getSynsets() {
+        Set<Definition> defs = new HashSet<Definition>(this.synsets);
+        this.synsets.clear();
+        this.synsets.addAll(defs);
         return this.synsets;
     }
 
-    public List<Definition> setSynsets(List<Definition> synsets) {
-        return this.synsets = synsets;
+    public void setSynsets(List<Definition> synsets) {
+        Set<Definition> defs = new HashSet<Definition>(synsets);
+        this.synsets.clear();
+        this.synsets.addAll(defs);
     }
    
     @Override
