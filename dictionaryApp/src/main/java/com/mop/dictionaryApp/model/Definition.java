@@ -5,18 +5,17 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "senses")
+@SecondaryTable(name = "synsets", pkJoinColumns = @PrimaryKeyJoinColumn(referencedColumnName = "synsetid", name = "synsetid"))
 public class Definition implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +27,9 @@ public class Definition implements Serializable{
     @ManyToMany
     @JsonBackReference
     private List<Word> word;
+
+    @Column(table = "synsets", name = "definition")
+    private String definition;
 
     // Getters and setters
     public Integer getSynsetId() {
@@ -44,6 +46,14 @@ public class Definition implements Serializable{
 
     public void setWord(List<Word> word) {
         this.word = word;
+    }
+
+    public String getDefinition() {
+        return this.definition;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
     }
 
     @Override

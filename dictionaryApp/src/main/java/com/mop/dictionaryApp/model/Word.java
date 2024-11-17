@@ -14,16 +14,20 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "senses")
+@SecondaryTable(name = "words", pkJoinColumns = @PrimaryKeyJoinColumn(referencedColumnName = "wordid", name = "wordid"))
 @NamedQueries({
     @NamedQuery(name = "Word.findAll", query = "SELECT distinct w FROM Word w"),
     @NamedQuery(name = "Word.findByWordId", query = "SELECT distinct w FROM Word w WHERE w.id = :wordid")
 })
+
 public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +44,9 @@ public class Word implements Serializable {
                 inverseJoinColumns = @JoinColumn(name = "synsetid"))
     @JsonManagedReference
     private List<Definition> synsets;
+
+    @Column(table = "words", name = "lemma", insertable = false, updatable = false)
+    private String lemma;
 
     public Word() {}
     //     this.wordid = word;
@@ -69,6 +76,14 @@ public class Word implements Serializable {
         Set<Definition> defs = new HashSet<Definition>(synsets);
         this.synsets.clear();
         this.synsets.addAll(defs);
+    }
+
+    public String getLemma() {
+        return this.lemma;
+    }
+
+    public void setLemma(String lemma) {
+        this.lemma = lemma;
     }
    
     @Override
