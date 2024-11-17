@@ -2,6 +2,7 @@ package com.mop.dictionaryApp.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,23 +43,12 @@ public class WordController {
         return wordService.getAllWordsWithDefinitions();
     }
 
-    // @GetMapping("/words")
-    // public List<Word> getAllWords() {
-    //     return wordService.getAllWords();
-    // }
+    @GetMapping("/{wordid:[0-9]+}/synonyms")
+    public ResponseEntity<Set<Word>> getSynonyms(@PathVariable Integer wordid) {
+        Set<Word> synonyms = wordService.getSynonymsOfWord(wordid);
+        return ResponseEntity.ok(synonyms);
+    }
 
-    // @GetMapping("/{wordid}")
-    // public ResponseEntity<Word> getWordById(@PathVariable Integer wordid) {
-    //     Optional<Word> word = wordService.getWordById(wordid);
-    //     return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    // }
-
-    // @GetMapping("/{wordId}")
-    // public ResponseEntity<Word> getByWordId(@PathVariable Integer wordId) {
-    //     Word search = new Word(wordId);
-    //     Optional<Word> word = wordService.getWordById(search);
-    //     return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    // }
 
     @PostMapping
     public Word createWord(@RequestBody Word word) {

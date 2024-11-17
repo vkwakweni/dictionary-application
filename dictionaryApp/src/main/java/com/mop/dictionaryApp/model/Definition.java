@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
@@ -25,6 +27,9 @@ public class Definition implements Serializable{
     private Integer synsetid;
 
     @ManyToMany
+    @JoinTable(name = "senses",
+                joinColumns = @JoinColumn(name = "synsetid"),
+                inverseJoinColumns = @JoinColumn(name = "wordid"))
     @JsonBackReference
     private List<Word> word;
 
