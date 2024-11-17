@@ -30,13 +30,15 @@ public class WordController {
     public WordController(WordService wordService) {
         this.wordService = wordService;
     }
+
     @ApiOperation(value = "Fetch a word by ID", response = Word.class)
     @GetMapping("/{wordid:[0-9]+}")
     public ResponseEntity<Word> getWordWithDefinitions( 
         @ApiParam(value = "ID of the word", required = true) @PathVariable Integer wordid){
-        Optional<Word> word = wordService.getWordWithDefinitionsById(wordid);
-        return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+            Optional<Word> word = wordService.getWordWithDefinitionsById(wordid);
+            return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        }
+        
     @ApiOperation(value = "Fetch all words with definitions")
     @GetMapping("/words")
     public List<Word> getAllWordsWithDefinitions() {
