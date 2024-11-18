@@ -5,19 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -27,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
     @NamedQuery(name = "Word.findAll", query = "SELECT distinct w FROM Word w"),
     @NamedQuery(name = "Word.findByWordId", query = "SELECT distinct w FROM Word w WHERE w.id = :wordid")
 })
-
 public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,8 +22,6 @@ public class Word implements Serializable {
     @Id
     @Column(name = "wordid")
     private Integer wordid;
-
-    // @Query(value = "Select w.synsetid from Word w where w.wordid = :wordid")
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "senses",
@@ -48,10 +33,10 @@ public class Word implements Serializable {
     @Column(table = "words", name = "lemma", insertable = false, updatable = false)
     private String lemma;
 
+    @ManyToMany(mappedBy = "words")
+    private Set<Glossary> glossaries = new HashSet<>();
+
     public Word() {}
-    //     this.wordid = word;
-    //     this.synsetSet = new ArrayList<>();
-    // }
 
     public Word(Integer wordid) {
         this.wordid = wordid;
@@ -85,7 +70,15 @@ public class Word implements Serializable {
     public void setLemma(String lemma) {
         this.lemma = lemma;
     }
-   
+
+    public Set<Glossary> getGlossaries() {
+        return glossaries;
+    }
+
+    public void setGlossaries(Set<Glossary> glossaries) {
+        this.glossaries = glossaries;
+    }
+
     @Override
     public String toString() {
         return this.wordid + ": " + this.synsets;
