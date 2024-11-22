@@ -88,4 +88,15 @@ public class GlossaryService {
             throw new RuntimeException("Glossary not found with id: " + glossary);
         }
     }
+
+    public String countWordsInGlossary(Integer glossaryId) {
+        // Fetch the glossary
+        Glossary glossary = glossaryRepository.findById(glossaryId)
+            .orElseThrow(() -> new RuntimeException("Glossary not found"));
+
+        // Count the number of words
+        int wordCount = (glossary.getWords() == null) ? 0 : glossary.getWords().size();
+
+        return wordCount + " words in this glossary";
+    }
 }
