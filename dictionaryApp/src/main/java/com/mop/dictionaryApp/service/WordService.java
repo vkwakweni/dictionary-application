@@ -87,4 +87,11 @@ public class WordService {
         return wordRepository.findWordsByPattern(pattern, limit);
     }
 
+    public List<String> searchWordByLemma(String lemma) {
+        Integer wordid = wordRepository.findWordByLemma(lemma);
+        Optional<Word> wordOptional = wordRepository.findWordWithDefinitionsById(wordid);
+        Word word = wordOptional.map(w -> w).orElseGet(null);
+        return word.getSynsets().stream().map(Definition::getDefinition).toList();
+    }
+
 }

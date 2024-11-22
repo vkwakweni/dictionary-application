@@ -68,8 +68,14 @@ public class WordController {
     public String welcome(){
         return "Dictionary is a land where words parade and wait for their turn to be noticed.";
     }
-    @GetMapping("/search")
+
+    @GetMapping("/search/pattern")
     public List<String> searchWords(@RequestParam String pattern) {
         return wordService.searchWordsByPattern(pattern);
+    }
+
+    @GetMapping("/search/{lemma}")
+    public List<String> searchWord(@PathVariable String lemma) {
+        return wordService.searchWordByLemma(lemma);
     }
 }

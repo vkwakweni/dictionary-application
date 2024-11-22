@@ -20,7 +20,9 @@ public interface WordRepository extends JpaRepository<Word, Integer> {
     @Query("SELECT w from Word w")
     List<Word> findAllWordsWithDefinitions();
 
-    @Query("SELECT w.lemma FROM Word w WHERE w.lemma LIKE CONCAT(:pattern, '%')")
+    @Query("SELECT distinct w.lemma FROM Word w WHERE w.lemma LIKE CONCAT(:pattern, '%')")
     List<String> findWordsByPattern(@Param("pattern") String pattern, Pageable pageable);
 
+    @Query("SELECT distinct w.wordid FROM Word w WHERE w.lemma = :lemma")
+    Integer findWordByLemma(String lemma);
 }
