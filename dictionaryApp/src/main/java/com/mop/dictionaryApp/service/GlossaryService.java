@@ -80,4 +80,12 @@ public class GlossaryService {
             .sorted()           // Sort alphabetically
             .toList();          // Collect into a list
     }
+
+    public void deleteGlossary(Integer glossary) {
+        if (glossaryRepository.existsById(glossary)) {
+            glossaryRepository.deleteById(glossary);
+        } else {
+            throw new RuntimeException("Glossary not found with id: " + glossary);
+        }
+    }
 }

@@ -7,6 +7,7 @@ import com.mop.dictionaryApp.repository.WordRepository;
 import com.mop.dictionaryApp.service.GlossaryService;
 import com.mop.dictionaryApp.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -42,6 +43,12 @@ public class GlossaryController {
     @DeleteMapping("/{glossaryId}/words/{wordId}")
     public Glossary removeWordFromGlossary(@PathVariable Integer glossaryId, @PathVariable Integer wordId) {
         return glossaryService.removeWordFromGlossary(glossaryId, wordId);
+    }
+
+    @DeleteMapping("/{glossaryId}")
+    public ResponseEntity<Void> deleteGlossary(@PathVariable Integer glossaryId) {
+        glossaryService.deleteGlossary(glossaryId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{glossaryId}/words")
