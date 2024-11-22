@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mop.dictionaryApp.model.Word;
@@ -66,5 +67,9 @@ public class WordController {
     @GetMapping("/welcome")
     public String welcome(){
         return "Dictionary is a land where words parade and wait for their turn to be noticed.";
+    }
+    @GetMapping("/search")
+    public List<String> searchWords(@RequestParam String pattern) {
+        return wordService.searchWordsByPattern(pattern);
     }
 }

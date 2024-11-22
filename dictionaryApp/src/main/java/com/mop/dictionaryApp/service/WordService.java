@@ -1,4 +1,9 @@
 package com.mop.dictionaryApp.service;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.mop.dictionaryApp.model.Definition;
@@ -73,6 +79,12 @@ public class WordService {
         } else {
             throw new RuntimeException("Word not found with id: " + word);
         }
+    }
+
+    public List<String> searchWordsByPattern(String pattern) {
+        // Use Pageable to limit results to 10
+        Pageable limit = PageRequest.of(0, 10);
+        return wordRepository.findWordsByPattern(pattern, limit);
     }
 
 }
