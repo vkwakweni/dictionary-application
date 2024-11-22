@@ -9,7 +9,6 @@ import com.mop.dictionaryApp.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/glossaries")
@@ -33,8 +32,11 @@ public class GlossaryController {
 
     @PostMapping("/{glossaryId}/{wordid}")
     public Glossary addWordToGlossary(@PathVariable Integer glossaryId, @PathVariable Integer wordid) {
-        Optional<Word> word = wordRepository.findWordWithDefinitionsById(wordid);
-        return glossaryService.addWordToGlossary(glossaryId, word.map(w -> w).orElseGet(null));
+        Word word = wordRepository.findWordWithDefinitionsById(wordid)
+        .orElseThrow(() -> new RuntimeException("Word not found"));
+        return glossaryService.addWordToGlossary(glossaryId, word);
+        // Optional<Word> word = wordRepository.findWordWithDefinitionsById(wordid);
+        // return glossaryService.addWordToGlossary(glossaryId, word.map(w -> w).orElseGet(null));
     }
 
     @DeleteMapping("/{glossaryId}/words/{wordId}")
@@ -48,4 +50,9 @@ public class GlossaryController {
             .orElseThrow(() -> new RuntimeException("Glossary not found"));
         return glossary.getWords();
     }
+    @GetMapping("/{userId}/sorted-words")
+    public List<String> getSortedWords(@PathVariable Integer userId) {
+        return glossaryService.getSortedWordsByUserId(userId);
+    }
+
 }
