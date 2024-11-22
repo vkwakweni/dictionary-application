@@ -33,8 +33,8 @@ public class Word implements Serializable {
     @Column(table = "words", name = "lemma", insertable = false, updatable = false)
     private String lemma;
 
-    @ManyToMany(mappedBy = "words")
-    private Set<Glossary> glossaries = new HashSet<>();
+    // @ManyToMany(mappedBy = "words")
+    // private Set<Glossary> glossaries = new HashSet<>();
 
     public Word() {}
 
@@ -69,14 +69,6 @@ public class Word implements Serializable {
 
     public void setLemma(String lemma) {
         this.lemma = lemma;
-    }
-
-    public Set<Glossary> getGlossaries() {
-        return glossaries;
-    }
-
-    public void setGlossaries(Set<Glossary> glossaries) {
-        this.glossaries = glossaries;
     }
 
     @Override
