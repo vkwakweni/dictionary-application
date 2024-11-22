@@ -45,10 +45,11 @@ public class GlossaryController {
     }
 
     @GetMapping("/{glossaryId}/words")
-    public List<Word> getWordsInGlossary(@PathVariable Integer glossaryId) {
+    public List<String> getWordsInGlossary(@PathVariable Integer glossaryId) {
         Glossary glossary = glossaryService.findGlossaryById(glossaryId)
             .orElseThrow(() -> new RuntimeException("Glossary not found"));
-        return glossary.getWords();
+        
+        return glossary.getWords().stream().map(Word::getLemma).toList();
     }
     @GetMapping("/{userId}/sorted-words")
     public List<String> getSortedWords(@PathVariable Integer userId) {
