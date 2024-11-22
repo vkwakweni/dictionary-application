@@ -63,4 +63,8 @@ public class GlossaryController {
         return glossaryService.getSortedWordsByUserId(userId);
     }
 
+    @GetMapping("/{glossaryId}/word-count")
+    public String countWordsInGlossary(@PathVariable Integer glossaryId) {
+        return glossaryService.countWordsInGlossary(glossaryId);
+    }
 }
