@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "senses")
 @SecondaryTable(name = "words", pkJoinColumns = @PrimaryKeyJoinColumn(referencedColumnName = "wordid", name = "wordid"))
 @NamedQueries({
-    @NamedQuery(name = "Word.findAll", query = "SELECT distinct w FROM Word w"),
+    @NamedQuery(name = "Word.findAll", query = "SELECT distinct w FROM Word w"), // tODO: are these usefull?
     @NamedQuery(name = "Word.findByWordId", query = "SELECT distinct w FROM Word w WHERE w.id = :wordid")
 })
 public class Word implements Serializable {
@@ -32,9 +32,6 @@ public class Word implements Serializable {
 
     @Column(table = "words", name = "lemma", insertable = false, updatable = false)
     private String lemma;
-
-    // @ManyToMany(mappedBy = "words")
-    // private Set<Glossary> glossaries = new HashSet<>();
 
     public Word() {}
 
@@ -71,6 +68,7 @@ public class Word implements Serializable {
         this.lemma = lemma;
     }
 
+    // TODO: better string representation
     @Override
     public String toString() {
         return this.wordid + ": " + this.synsets;

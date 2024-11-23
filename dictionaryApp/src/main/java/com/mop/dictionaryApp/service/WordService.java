@@ -1,9 +1,5 @@
 package com.mop.dictionaryApp.service;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,17 +30,29 @@ public class WordService {
         this.wordRepository = wordRepository;
     }
 
+    // TODO: make this only available to the admin; should not be easy to add Word
+    public Word createWord(Word word) { // maybe save word instead
+        return wordRepository.save(word);
+    }
+
+    // Read Word by giving a Word Integer
     @Transactional
     public Optional<Word> getWordWithDefinitionsById(Integer wordid) {
         return wordRepository.findWordWithDefinitionsById(wordid);
     }
 
-    // Fetch all words with their definitions
+    // Not the same as the above?
+    public Optional<Word> getWordById(Integer word) {
+        return wordRepository.findById(word);
+    }
+
+    // TODO: get rid of this
     @Transactional
     public List<Word> getAllWordsWithDefinitions() {
         return wordRepository.findAllWordsWithDefinitions();
     }
 
+    // Method 3/5 - Get Synonyms of a Word
     @Transactional
     public Set<Word> getSynonymsOfWord(Integer wordid) {
         Optional<Word> word = wordRepository.findWordWithDefinitionsById(wordid);
@@ -61,18 +69,12 @@ public class WordService {
         return result;
     }
 
+    // TODO: remove this
     public List<Word> getAllWords() {
         return wordRepository.findAll();
     }
 
-    public Optional<Word> getWordById(Integer word) {
-        return wordRepository.findById(word);
-    }
-
-    public Word createWord(Word word) { // maybe save word instead
-        return wordRepository.save(word);
-    }
-
+    // Delete a Word by ID
     public void deleteWord(Integer word) {
         if (wordRepository.existsById(word)) {
             wordRepository.deleteById(word);
@@ -81,12 +83,14 @@ public class WordService {
         }
     }
 
+    // Method 4/5 - Search by Pattern
     public List<String> searchWordsByPattern(String pattern) {
         // Use Pageable to limit results to 10
         Pageable limit = PageRequest.of(0, 10);
         return wordRepository.findWordsByPattern(pattern, limit);
     }
 
+    // Method 4/5 - Search by Whole Word
     public List<String> searchWordByLemma(String lemma) {
         Integer wordid = wordRepository.findWordByLemma(lemma);
         Optional<Word> wordOptional = wordRepository.findWordWithDefinitionsById(wordid);
