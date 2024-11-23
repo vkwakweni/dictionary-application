@@ -5,7 +5,6 @@ import com.mop.dictionaryApp.model.Users;
 import com.mop.dictionaryApp.model.Word;
 import com.mop.dictionaryApp.repository.GlossaryRepository;
 import com.mop.dictionaryApp.repository.UsersRepository;
-import com.mop.dictionaryApp.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,23 +28,26 @@ public class GlossaryService {
     @PersistenceContext
     private EntityManager em;
 
-    // @Autowired
-    // private WordRepository wordRepository;
-
     public GlossaryService(GlossaryRepository glossaryRepository){
         this.glossaryRepository = glossaryRepository;
     }
 
+    // Creating a glossary from an existing Users object
+    // TODO: Restrict creation to if User does NOT have a Glossary
     public Glossary createGlossary(Users user) {
         Glossary glossary = new Glossary();
         glossary.setUser(user);
         return glossaryRepository.save(glossary);
     }
 
+    // Getting a Glossary objectby ID (Read)
     public Optional<Glossary> findGlossaryById(Integer id) {
         return glossaryRepository.findById(id);
     }
 
+    // Updating a Glossary with an existing Word object
+    // TODO: should do try-catch block for existence of glossary and word.
+    // TODO: Have Not Found exception for each model
     public Glossary addWordToGlossary(Integer glossaryId, Word word) {
         Optional<Glossary> glossaryOpt = glossaryRepository.findById(glossaryId);
         if (glossaryOpt.isPresent()) {
@@ -53,9 +55,10 @@ public class GlossaryService {
             glossary.getWords().add(word);
             return glossaryRepository.save(glossary);
         }
-        throw new RuntimeException("Glossary not found.");
+        throw new RuntimeException("Glossary not found for given id: " + glossaryId);
     }
 
+    // Deleting a Word from a Glossary
     public Glossary removeWordFromGlossary(Integer glossaryId, Integer wordId) {
         Optional<Glossary> glossaryOpt = glossaryRepository.findById(glossaryId);
         if (glossaryOpt.isPresent()) {
@@ -63,40 +66,37 @@ public class GlossaryService {
             glossary.getWords().removeIf(word -> word.getWordId().equals(wordId));
             return glossaryRepository.save(glossary);
         }
-        throw new RuntimeException("Glossary not found.");
+        throw new RuntimeException("Glossary not found with id: " + glossaryId);
+    }
+
+    // Deleting a Glossary
+    public void deleteGlossary(Integer glossaryId) {
+        if (glossaryRepository.existsById(glossaryId)) {
+            glossaryRepository.deleteById(glossaryId);
+        } else {
+            throw new RuntimeException("Glossary not found with id: " + glossaryId);
+        }
     }
     
+    // Method 1/5: Sorting Words in a Glossary
+    // TODO: Displaying words should also lead from glossary.
     public List<String> getSortedWordsByUserId(Integer userId) {
-        // Fetch user and associated glossary
         Users user = usersRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
         Glossary glossary = glossaryRepository.findByUserId(user.getId())
             .orElseThrow(() -> new RuntimeException("Glossary not found for user"));
 
-        // Get words and sort alphabetically by lemma
-        return glossary.getWords().stream()
-            .map(Word::getLemma) // Extract word lemma
-            .sorted()           // Sort alphabetically
-            .toList();          // Collect into a list
+        return glossary.getWords().stream().map(Word::getLemma).sorted().toList();          
     }
 
-    public void deleteGlossary(Integer glossary) {
-        if (glossaryRepository.existsById(glossary)) {
-            glossaryRepository.deleteById(glossary);
-        } else {
-            throw new RuntimeException("Glossary not found with id: " + glossary);
-        }
-    }
-
+    // Method 2/5: Counting Words in a Glossary
     public String countWordsInGlossary(Integer glossaryId) {
-        // Fetch the glossary
         Glossary glossary = glossaryRepository.findById(glossaryId)
             .orElseThrow(() -> new RuntimeException("Glossary not found"));
 
-        // Count the number of words
-        int wordCount = (glossary.getWords() == null) ? 0 : glossary.getWords().size();
+        int count = glossary.getWords().size();
 
-        return wordCount + " words in this glossary";
+        return count + " words in this glossary";
     }
 }
