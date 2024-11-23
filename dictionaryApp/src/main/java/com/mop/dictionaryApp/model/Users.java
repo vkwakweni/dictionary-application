@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Users {
@@ -20,8 +21,8 @@ public class Users {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Glossary> glossaries;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Glossary glossaries;
 
     // Getters and Setters
     public Integer getId() {
@@ -40,11 +41,11 @@ public class Users {
         this.username = username;
     }
 
-    public List<Glossary> getGlossaries() {
+    public Glossary getGlossaries() {
         return glossaries;
     }
 
-    public void setGlossaries(List<Glossary> glossaries) {
+    public void setGlossaries(Glossary glossaries) {
         this.glossaries = glossaries;
     }
 
