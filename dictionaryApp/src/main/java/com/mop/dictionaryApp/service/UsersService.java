@@ -13,6 +13,7 @@ public class UsersService {
     @Autowired
     private UsersRepository userRepository;
 
+    // Create a user
     public Users createUser(String username) {
         Users user = new Users();
         user.setUsername(username);
@@ -20,7 +21,14 @@ public class UsersService {
         return user;
     }
 
+    // Find a user
     public Optional<Users> findUserById(Integer id) {
         return userRepository.findById(id);
     }
+
+    // TODO: Get a list of users
+
+    // TODO: Update a given User's id
+
+    // TODO: Delete a given User id
 }

@@ -12,8 +12,15 @@ public class UsersController {
     @Autowired
     private UsersService userService;
 
+    // Create a user
     @PostMapping
     public Users createUser(@RequestParam String username) {
         return userService.createUser(username);
     }
+    
+    // TODO: Get a list of users
+
+    // TODO: Update a given User's id
+
+    // TODO: Delete a given User id
 }

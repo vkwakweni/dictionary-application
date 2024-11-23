@@ -47,4 +47,6 @@ public class Users {
     public void setGlossaries(List<Glossary> glossaries) {
         this.glossaries = glossaries;
     }
+
+    // TODO: Make a toString?
 }
