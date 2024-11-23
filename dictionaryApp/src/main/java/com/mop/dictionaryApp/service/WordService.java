@@ -1,6 +1,12 @@
 package com.mop.dictionaryApp.service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -96,6 +102,16 @@ public class WordService {
         Optional<Word> wordOptional = wordRepository.findWordWithDefinitionsById(wordid);
         Word word = wordOptional.map(w -> w).orElseGet(null);
         return word.getSynsets().stream().map(Definition::getDefinition).toList();
+    }
+
+    // Method 5/5 - Get Anagrams of a word
+    public boolean checkIfAnagram(String lemma1, String lemma2) {
+        char[] letters1 = lemma1.toCharArray();
+        char[] letters2 = lemma2.toCharArray();
+        Arrays.sort(letters1); 
+        Arrays.sort(letters2);
+        return Arrays.equals(letters1, letters2);
+        
     }
 
 }

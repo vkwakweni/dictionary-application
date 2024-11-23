@@ -1,21 +1,30 @@
 package com.mop.dictionaryApp.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.mop.dictionaryApp.model.Word;
 import com.mop.dictionaryApp.service.WordService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import io.swagger.annotations.Api;
@@ -78,4 +87,22 @@ public class WordController {
     public List<String> searchWord(@PathVariable String lemma) {
         return wordService.searchWordByLemma(lemma);
     }
+
+    // Method 6/5 - Redirect to Wikipedia for word
+    @GetMapping("/redirect/{lemma}")
+    public String redirect(@PathVariable String lemma) {
+        ResponseEntity.status(HttpStatus.FOUND)
+         .location(URI.create("https://en.wikipedia.org/wiki/" + lemma))
+        .build();
+        String redirect = "<p><a href=\"https://en.wikipedia.org/wiki/" + lemma + "\">Redirect</a></p>";
+        return  redirect;
+    }
+
+    // Method 5/5 - Check if two words are anagrams
+    @GetMapping("/search/anagram/{lemma1}-{lemma2}")
+    public boolean checkIfAnagram(@PathVariable String lemma1, @PathVariable String lemma2) {
+        return wordService.checkIfAnagram(lemma1, lemma2);
+    }
+
+    
 }
