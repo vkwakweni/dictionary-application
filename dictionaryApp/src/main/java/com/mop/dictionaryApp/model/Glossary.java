@@ -19,12 +19,12 @@ public class Glossary {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)  // table glossary that has a column user_id
     private Users user;
 
     @ManyToMany
     @JoinTable(
-        name = "glossary_words",
+        name = "glossary_words",  // to update a foreign key between glossary to glossary_words
         joinColumns = @JoinColumn(name = "glossary_id"),
         inverseJoinColumns = @JoinColumn(name = "word_id")
     )

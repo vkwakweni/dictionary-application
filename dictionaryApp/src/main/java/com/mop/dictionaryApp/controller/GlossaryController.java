@@ -24,6 +24,7 @@ public class GlossaryController {
     @Autowired
     private WordRepository wordRepository;
 
+    // Create a Glossary for an existing user
     @PostMapping("/{userId}")
     public Glossary createGlossary(@PathVariable Integer userId) {
         Users user = userService.findUserById(userId)
@@ -31,26 +32,7 @@ public class GlossaryController {
         return glossaryService.createGlossary(user);
     }
 
-    @PostMapping("/{glossaryId}/{wordid}")
-    public Glossary addWordToGlossary(@PathVariable Integer glossaryId, @PathVariable Integer wordid) {
-        Word word = wordRepository.findWordWithDefinitionsById(wordid)
-        .orElseThrow(() -> new RuntimeException("Word not found"));
-        return glossaryService.addWordToGlossary(glossaryId, word);
-        // Optional<Word> word = wordRepository.findWordWithDefinitionsById(wordid);
-        // return glossaryService.addWordToGlossary(glossaryId, word.map(w -> w).orElseGet(null));
-    }
-
-    @DeleteMapping("/{glossaryId}/words/{wordId}")
-    public Glossary removeWordFromGlossary(@PathVariable Integer glossaryId, @PathVariable Integer wordId) {
-        return glossaryService.removeWordFromGlossary(glossaryId, wordId);
-    }
-
-    @DeleteMapping("/{glossaryId}")
-    public ResponseEntity<Void> deleteGlossary(@PathVariable Integer glossaryId) {
-        glossaryService.deleteGlossary(glossaryId);
-        return ResponseEntity.noContent().build();
-    }
-
+    // Read the Words from a given Glossary
     @GetMapping("/{glossaryId}/words")
     public List<String> getWordsInGlossary(@PathVariable Integer glossaryId) {
         Glossary glossary = glossaryService.findGlossaryById(glossaryId)
@@ -58,13 +40,38 @@ public class GlossaryController {
         
         return glossary.getWords().stream().map(Word::getLemma).toList();
     }
+
+    // Method 1/5
     @GetMapping("/{userId}/sorted-words")
     public List<String> getSortedWords(@PathVariable Integer userId) {
         return glossaryService.getSortedWordsByUserId(userId);
     }
 
+    // Method 2/5
     @GetMapping("/{glossaryId}/word-count")
     public String countWordsInGlossary(@PathVariable Integer glossaryId) {
         return glossaryService.countWordsInGlossary(glossaryId);
     }
+
+    // Update a Glossary by adding a Word
+    @PostMapping("/{glossaryId}/{wordid}")
+    public Glossary addWordToGlossary(@PathVariable Integer glossaryId, @PathVariable Integer wordid) {
+        Word word = wordRepository.findWordWithDefinitionsById(wordid)
+        .orElseThrow(() -> new RuntimeException("Word not found"));
+        return glossaryService.addWordToGlossary(glossaryId, word);
+    }
+
+    // Delete a Word from a Glossary
+    @DeleteMapping("/{glossaryId}/words/{wordId}")
+    public Glossary removeWordFromGlossary(@PathVariable Integer glossaryId, @PathVariable Integer wordId) {
+        return glossaryService.removeWordFromGlossary(glossaryId, wordId);
+    }
+
+    // Delete a Glossary
+    @DeleteMapping("/{glossaryId}")
+    public ResponseEntity<Void> deleteGlossary(@PathVariable Integer glossaryId) {
+        glossaryService.deleteGlossary(glossaryId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
