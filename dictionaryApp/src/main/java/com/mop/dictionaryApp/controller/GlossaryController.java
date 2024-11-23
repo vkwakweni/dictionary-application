@@ -1,5 +1,7 @@
 package com.mop.dictionaryApp.controller;
 
+import com.mop.dictionaryApp.exception.ApiException;
+import com.mop.dictionaryApp.exception.ErrorCode;
 import com.mop.dictionaryApp.model.Glossary;
 import com.mop.dictionaryApp.model.Users;
 import com.mop.dictionaryApp.model.Word;
@@ -34,12 +36,18 @@ public class GlossaryController {
 
     // Read the Words from a given Glossary
     @GetMapping("/{glossaryId}/words")
-    public List<String> getWordsInGlossary(@PathVariable Integer glossaryId) {
-        Glossary glossary = glossaryService.findGlossaryById(glossaryId)
-            .orElseThrow(() -> new RuntimeException("Glossary not found"));
-        
-        return glossary.getWords().stream().map(Word::getLemma).toList();
-    }
+public List<String> getWordsInGlossary(@PathVariable Integer glossaryId) {
+    // Use orElseThrow to handle missing glossary
+    Glossary glossary = glossaryService.findGlossaryById(glossaryId)
+            .orElseThrow(() -> new ApiException(ErrorCode.GLOSSARY_NOT_FOUND));
+
+    // Return words or an empty list if no words are available
+    return glossary.getWords() != null
+            ? glossary.getWords().stream().map(Word::getLemma).toList()
+            : List.of();
+}
+
+
 
     // Method 1/5
     @GetMapping("/{userId}/sorted-words")
