@@ -1,10 +1,6 @@
 package com.mop.dictionaryApp.service;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
-import java.net.URI;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.HashSet;
