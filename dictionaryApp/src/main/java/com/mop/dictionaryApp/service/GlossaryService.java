@@ -48,7 +48,9 @@ public class GlossaryService {
         Optional<Glossary> glossaryOpt = glossaryRepository.findById(glossaryId);
         if (glossaryOpt.isPresent()) {
             Glossary glossary = glossaryOpt.get();
+            if (!glossary.getWords().contains(word)) {
             glossary.getWords().add(word);
+            }
             return glossaryRepository.save(glossary);
         }
         throw new RuntimeException("Glossary not found for given id: " + glossaryId);
