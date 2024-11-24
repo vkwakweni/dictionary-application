@@ -4,7 +4,6 @@ import com.mop.dictionaryApp.model.Glossary;
 import com.mop.dictionaryApp.model.Users;
 import com.mop.dictionaryApp.model.Word;
 import com.mop.dictionaryApp.repository.GlossaryRepository;
-import com.mop.dictionaryApp.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +20,6 @@ public class GlossaryService {
 
     @Autowired
     private final GlossaryRepository glossaryRepository;
-
-    @Autowired
-    private UsersRepository usersRepository;
 
     @PersistenceContext
     private EntityManager em;

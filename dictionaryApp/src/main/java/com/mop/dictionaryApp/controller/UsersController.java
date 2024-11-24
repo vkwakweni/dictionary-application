@@ -1,7 +1,6 @@
 package com.mop.dictionaryApp.controller;
 
 import com.mop.dictionaryApp.model.Users;
-import com.mop.dictionaryApp.repository.GlossaryRepository;
 import com.mop.dictionaryApp.service.UsersService;
 
 import java.util.List;
@@ -17,8 +16,6 @@ public class UsersController {
 
     @Autowired
     private UsersService userService;
-    @Autowired
-    private GlossaryRepository glossaryRepository;
 
     // Create a user
     @PostMapping
