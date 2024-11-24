@@ -62,9 +62,9 @@ public class WordController {
         }
     
     // Method - Get the synonym of a word
-    @GetMapping("/{wordid:[0-9]+}/synonyms")
-    public ResponseEntity<Set<Word>> getSynonyms(@PathVariable Integer wordid) {
-        Set<Word> synonyms = wordService.getSynonymsOfWord(wordid);
+    @GetMapping("/{lemma}/synonyms")
+    public ResponseEntity<Set<Word>> getSynonyms(@PathVariable String lemma) {
+        Set<Word> synonyms = wordService.getSynonymsOfWord(lemma);
         return ResponseEntity.ok(synonyms);
     }
 

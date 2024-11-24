@@ -51,7 +51,8 @@ public class WordService {
 
     // Method 3/5 - Get Synonyms of a Word
     @Transactional
-    public Set<Word> getSynonymsOfWord(Integer wordid) {
+    public Set<Word> getSynonymsOfWord(String lemma) {
+        Integer wordid = wordRepository.findWordByLemma(lemma);
         Optional<Word> word = wordRepository.findWordWithDefinitionsById(wordid);
         List<Definition> definitions = word.map(w -> w.getSynsets()).orElseGet(null);
         Set<Word> result = new HashSet<>();
