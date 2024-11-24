@@ -47,8 +47,6 @@ public List<String> getWordsInGlossary(@PathVariable Integer glossaryId) {
             : List.of();
 }
 
-
-
     // Method 1/5
     @GetMapping("/{glossaryId}/sorted-words")
     public List<String> getSortedWords(@PathVariable Integer glossaryId) {

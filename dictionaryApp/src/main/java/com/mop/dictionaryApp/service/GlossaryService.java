@@ -80,12 +80,12 @@ public class GlossaryService {
     
     // Method 1/5: Sorting Words in a Glossary
     // TODO: Displaying words should also lead from glossary.
-    public List<String> getSortedWordsByUserId(Integer userId) {
-        Users user = usersRepository.findById(userId)
+    public List<String> getSortedWordsByUserId(Integer glossaryId) {
+        Glossary glossary = glossaryRepository.findById(glossaryId)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Glossary glossary = glossaryRepository.findByUserId(user.getId())
-            .orElseThrow(() -> new RuntimeException("Glossary not found for user"));
+        // Glossary glossary = glossaryRepository.findByUserId(user.getId())
+        //     .orElseThrow(() -> new RuntimeException("Glossary not found for user"));
 
         return glossary.getWords().stream().map(Word::getLemma).sorted().toList();          
     }

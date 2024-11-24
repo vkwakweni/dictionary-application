@@ -45,7 +45,11 @@ public class Glossary {
     }
 
     public void setUser(Users user) {
-        this.user = user;
+        if (user.getGlossaries() == null) {
+            this.user = user;
+        } else {
+            throw new RuntimeException("This user " + user.getId() + " already has a glossary, " + user.getGlossaries().getId());
+        }
     }
 
     public List<Word> getWords() {
