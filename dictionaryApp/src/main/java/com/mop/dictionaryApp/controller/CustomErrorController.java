@@ -23,15 +23,13 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public ResponseEntity<Object> handleError(HttpServletRequest request) {
-        System.out.println("CustomErrorController is handling the error."); // Debugging log
+        System.out.println("CustomErrorController is handling the error.");
 
-        // Extract error details
         Map<String, Object> errorDetails = errorAttributes.getErrorAttributes(
                 new ServletWebRequest(request),
                 ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE)
         );
 
-        // Build custom error response
         Map<String, Object> response = Map.of(
                 "timestamp", LocalDateTime.now(),
                 "message", errorDetails.getOrDefault("message", "An unexpected error occurred"),
