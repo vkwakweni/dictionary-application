@@ -21,32 +21,25 @@ public class ErrorHandlingAspect {
     @Around("within(@org.springframework.web.bind.annotation.RestController *)")
     public Object handleControllerErrors(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-            return joinPoint.proceed(); // Proceed with the original method
-        } catch (ApiException ex) {
-            // Log the exception
+            return joinPoint.proceed();
+        } catch (ApiException ex) { // Defined responses for expected errors
             System.out.println("Aspect caught ApiException: " + ex.getErrorCode());
-            throw ex; // Rethrow to let Spring handle it
+            throw ex;
         } catch (Exception ex) {
-            // Log unexpected exceptions
             System.out.println("Aspect caught unexpected Exception: " + ex.getMessage());
-            throw ex; // Rethrow generic exceptions
+            throw ex;
         }
     }
 
-    /**
-     * Constructs a structured error response and sets it as HTTP response.
-     */
-    private ResponseEntity<Object> buildErrorResponse(String message, HttpStatus status) {
+    private ResponseEntity<Object> buildErrorResponse(String message, HttpStatus status) { // Not used
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
         response.put("message", message);
         response.put("status", status.value());
         response.put("error", status.getReasonPhrase());
 
-        // Log the response for debugging
         System.out.println("Building HTTP response: " + response);
 
-        // Return ResponseEntity to properly map to HTTP response
         return ResponseEntity.status(status)
                 .header("Content-Type", "application/json")
                 .body(response);
