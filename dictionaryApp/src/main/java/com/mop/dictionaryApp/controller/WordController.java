@@ -34,6 +34,25 @@ public class WordController {
         this.wordService = wordService;
     }
 
+    // CREATE - Creates a Word object
+    @PostMapping
+    public Word createWord(@RequestBody Word word) {
+        return wordService.createWord(word);
+    }
+
+    // READ - Search for a word that begin with pattern
+    @GetMapping("/search/pattern")
+    public List<String> searchWords(@RequestParam String pattern) {
+        return wordService.searchWordsByPattern(pattern);
+    }
+
+    // READ - Search for an exact word - READ
+    @GetMapping("/search/{lemma}")
+    public List<String> searchWord(@PathVariable String lemma) {
+        return wordService.searchWordByLemma(lemma);
+    }
+
+    // READ -Get a word by ID 
     @ApiOperation(value = "Fetch a word by ID", response = Word.class)
     @GetMapping("/{wordid:[0-9]+}")
     public ResponseEntity<Word> getWordWithDefinitions( 
@@ -42,19 +61,14 @@ public class WordController {
             return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         }
     
-
+    // Method - Get the synonym of a word
     @GetMapping("/{wordid:[0-9]+}/synonyms")
     public ResponseEntity<Set<Word>> getSynonyms(@PathVariable Integer wordid) {
         Set<Word> synonyms = wordService.getSynonymsOfWord(wordid);
         return ResponseEntity.ok(synonyms);
     }
 
-
-    @PostMapping
-    public Word createWord(@RequestBody Word word) {
-        return wordService.createWord(word);
-    }
-
+    // DELETE - delete a word id
     @DeleteMapping("/{wordid:[0-9]+}")
     public ResponseEntity<Void> deleteWord(@PathVariable Integer wordid) {
         wordService.deleteWord(wordid);
@@ -66,30 +80,17 @@ public class WordController {
         return "Dictionary is a land where words parade and wait for their turn to be noticed.";
     }
 
-
-    //word doesnt exist
-
-    @GetMapping("/search/pattern")
-    public List<String> searchWords(@RequestParam String pattern) {
-        return wordService.searchWordsByPattern(pattern);
-    }
-
-    @GetMapping("/search/{lemma}")
-    public List<String> searchWord(@PathVariable String lemma) {
-        return wordService.searchWordByLemma(lemma);
-    }
-
-    // Method 6/5 - Redirect to Wikipedia for word
+    // Method - Redirect to HTML page for a redirect to Wikipedia article
     @GetMapping("/redirect/{lemma}")
     public String redirect(@PathVariable String lemma) {
         ResponseEntity.status(HttpStatus.FOUND)
          .location(URI.create("https://en.wikipedia.org/wiki/" + lemma))
         .build();
-        String redirect = "<p><a href=\"https://en.wikipedia.org/wiki/" + lemma + "\">Redirect</a></p>";
+        String redirect = "<p><a href=\"https://en.wikipedia.org/wiki/" + lemma + "\">Redirect to Wikipedia</a></p>";
         return  redirect;
     }
 
-    // Method 5/5 - Check if two words are anagrams
+    // Method - Check if two words are anagrams
     @GetMapping("/search/anagram/{lemma1}-{lemma2}")
     public boolean checkIfAnagram(@PathVariable String lemma1, @PathVariable String lemma2) {
         return wordService.checkIfAnagram(lemma1, lemma2);
