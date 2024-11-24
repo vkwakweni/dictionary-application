@@ -19,6 +19,8 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.mop.dictionaryApp.exception.ApiException;
+import com.mop.dictionaryApp.exception.ErrorCode;
 import com.mop.dictionaryApp.model.Definition;
 import com.mop.dictionaryApp.model.Word;
 import com.mop.dictionaryApp.repository.WordRepository;
@@ -36,7 +38,6 @@ public class WordService {
         this.wordRepository = wordRepository;
     }
 
-    // TODO: make this only available to the admin; should not be easy to add Word
     public Word createWord(Word word) { // maybe save word instead
         return wordRepository.save(word);
     }
@@ -50,12 +51,6 @@ public class WordService {
     // Not the same as the above?
     public Optional<Word> getWordById(Integer word) {
         return wordRepository.findById(word);
-    }
-
-    // TODO: get rid of this
-    @Transactional
-    public List<Word> getAllWordsWithDefinitions() {
-        return wordRepository.findAllWordsWithDefinitions();
     }
 
     // Method 3/5 - Get Synonyms of a Word
@@ -75,17 +70,13 @@ public class WordService {
         return result;
     }
 
-    // TODO: remove this
-    public List<Word> getAllWords() {
-        return wordRepository.findAll();
-    }
 
     // Delete a Word by ID
     public void deleteWord(Integer word) {
         if (wordRepository.existsById(word)) {
             wordRepository.deleteById(word);
         } else {
-            throw new RuntimeException("Word not found with id: " + word);
+            throw new ApiException(ErrorCode.WORD_NOT_FOUND);
         }
     }
 

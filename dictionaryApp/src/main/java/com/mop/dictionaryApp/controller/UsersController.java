@@ -31,13 +31,11 @@ public class UsersController {
         return ResponseEntity.ok(updatedUser);
     }
     
-    // TODO: Get a list of users
     @GetMapping("/all-ids-usernames")
     public List<Map<String, Object>> getAllUserIdsAndUsernames() {
         return userService.getAllUserIdsAndUsernames();
     }
 
-    // TODO: Delete a given User id
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer userId) {
         String message = userService.deleteUserAndRelatedData(userId);

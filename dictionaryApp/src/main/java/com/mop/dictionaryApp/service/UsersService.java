@@ -1,5 +1,7 @@
 package com.mop.dictionaryApp.service;
 
+import com.mop.dictionaryApp.exception.ApiException;
+import com.mop.dictionaryApp.exception.ErrorCode;
 import com.mop.dictionaryApp.model.Glossary;
 import com.mop.dictionaryApp.model.Users;
 import com.mop.dictionaryApp.repository.GlossaryRepository;
@@ -41,7 +43,7 @@ public class UsersService {
 
         // Fetch the user by ID
         Users user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
 
         // Update the username
         user.setUsername(newUsername);
@@ -69,7 +71,7 @@ public class UsersService {
     public String deleteUserAndRelatedData(Integer userId) {
         // Fetch the user by ID
         Users user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
 
         // Delete all glossaries related to the user
         Optional<Glossary> OptionalGlossary = glossaryRepository.findByUserId(userId);

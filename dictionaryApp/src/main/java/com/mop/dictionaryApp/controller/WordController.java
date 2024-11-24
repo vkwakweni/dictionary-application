@@ -48,12 +48,7 @@ public class WordController {
             Optional<Word> word = wordService.getWordWithDefinitionsById(wordid);
             return word.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         }
-        
-    @ApiOperation(value = "Fetch all words with definitions")
-    @GetMapping("/words")
-    public List<Word> getAllWordsWithDefinitions() {
-        return wordService.getAllWordsWithDefinitions();
-    }
+    
 
     @GetMapping("/{wordid:[0-9]+}/synonyms")
     public ResponseEntity<Set<Word>> getSynonyms(@PathVariable Integer wordid) {
@@ -77,6 +72,9 @@ public class WordController {
     public String welcome(){
         return "Dictionary is a land where words parade and wait for their turn to be noticed.";
     }
+
+
+    //word doesnt exist
 
     @GetMapping("/search/pattern")
     public List<String> searchWords(@RequestParam String pattern) {

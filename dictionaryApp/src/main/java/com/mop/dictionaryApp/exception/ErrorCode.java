@@ -9,7 +9,6 @@ public enum ErrorCode {
     GLOSSARY_NOT_FOUND(HttpStatus.NOT_FOUND, "The glossary with the given ID does not exist"),
     WORD_NOT_FOUND(HttpStatus.NOT_FOUND, "The word with the given ID does not exist"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "This user does not exist"),
-    USER_IS_LOCKED(HttpStatus.UNPROCESSABLE_ENTITY, "This user is locked"),
     INVALID_INPUT(HttpStatus.BAD_REQUEST, "The input provided is invalid"),
     UNEXPECTED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
 
