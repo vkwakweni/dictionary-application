@@ -34,12 +34,6 @@ public class WordController {
         this.wordService = wordService;
     }
 
-    // CREATE - Creates a Word object
-    @PostMapping
-    public Word createWord(@RequestBody Word word) {
-        return wordService.createWord(word);
-    }
-
     // READ - Search for a word that begin with pattern
     @GetMapping("/search/pattern")
     public List<String> searchWords(@RequestParam String pattern) {
@@ -66,13 +60,6 @@ public class WordController {
     public ResponseEntity<Set<Word>> getSynonyms(@PathVariable String lemma) {
         Set<Word> synonyms = wordService.getSynonymsOfWord(lemma);
         return ResponseEntity.ok(synonyms);
-    }
-
-    // DELETE - delete a word id
-    @DeleteMapping("/{wordid:[0-9]+}")
-    public ResponseEntity<Void> deleteWord(@PathVariable Integer wordid) {
-        wordService.deleteWord(wordid);
-        return ResponseEntity.noContent().build();
     }
     
     @GetMapping("/welcome")
