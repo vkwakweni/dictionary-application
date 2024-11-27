@@ -1,4 +1,3 @@
-// Path: src/main/java/com/mop/dictionaryApp/exception/ErrorCode.java
 
 package com.mop.dictionaryApp.exception;
 

@@ -80,5 +80,14 @@ public class WordController {
         return wordService.checkIfAnagram(lemma1, lemma2);
     }
 
+    @GetMapping("/definitions/pos")
+    public List<Object[]> getDefinitionsByPOS(
+        @RequestParam String lemma,
+        @RequestParam String pos
+    ) {
+        // Directly return raw results from the service
+        return wordService.getDefinitionsByPOS(lemma, pos);
+    }
+
     
 }

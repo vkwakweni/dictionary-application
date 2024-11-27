@@ -83,6 +83,11 @@ public class WordService {
         return wordRepository.findWordsByPattern(pattern);
     }
 
+    public List<Object[]> getDefinitionsByPOS(String lemma, String pos) {
+        // Fetch raw results from the repository
+        return wordRepository.getDefinitionsByPOS(lemma, pos);
+    }
+
     // Method 4/5 - Search by Whole Word
     public List<String> searchWordByLemma(String lemma) {
         Integer wordid = wordRepository.findWordByLemma(lemma);

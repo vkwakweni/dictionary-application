@@ -27,5 +27,5 @@ public interface WordRepository extends JpaRepository<Word, Integer> {
     Integer findWordByLemma(String lemma);
 
     @Query(value = "CALL GetDefinitionsByPOS(:lemma, :pos)", nativeQuery = true)
-    List<String> getDefinitionsByPOS(@Param("lemma") String lemma, @Param(":pos") String pos);
+    List<Object[]> getDefinitionsByPOS(@Param("lemma") String lemma, @Param("pos") String pos);
 }
