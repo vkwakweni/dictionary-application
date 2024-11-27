@@ -80,8 +80,7 @@ public class WordService {
     // Method 4/5 - Search by Pattern
     public List<String> searchWordsByPattern(String pattern) {
         // Use Pageable to limit results to 10
-        Pageable limit = PageRequest.of(0, 10);
-        return wordRepository.findWordsByPattern(pattern, limit);
+        return wordRepository.findWordsByPattern(pattern);
     }
 
     // Method 4/5 - Search by Whole Word
